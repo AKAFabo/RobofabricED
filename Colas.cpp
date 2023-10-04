@@ -1,5 +1,5 @@
 
-#include "estructuras.h"
+#include "Colas.h"
 
 
 void Cola::encolar (int dato)

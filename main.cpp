@@ -1,6 +1,6 @@
-#include "estructuras.h"
+#include "Colas.h"
 #include <vector>
-#include "ReadFiles/Clients.h"
+#include "LinkedList.h"
 
 linkedClientList* buildClientList(){
 
@@ -23,21 +23,15 @@ linkedClientList* buildClientList(){
 
         while (getline(ss, token, '\t')) {
             tokens.push_back(token);
-
         }
 
-        //for (const string& element : tokens) {
-        //   cout << element << "\t";
-        //}
+        string _clientID = tokens[0];
+        string _clientName = tokens[1];
+        int _priority = std::stoi(tokens[2]);
 
-        Client client;
-
-        client.clientID = tokens[0];
-        client.clientName = tokens[1];
-        client.priority = std::stoi(tokens[2]);
-
+        Client client(_clientID, _priority, _clientName);
         clientList->insertFirst(client);
-        cout << endl;
+
     }
 
     inFile.close();
@@ -45,12 +39,59 @@ linkedClientList* buildClientList(){
     return clientList;
 }
 
+linkedProductList* buildProductList(){
+
+    linkedProductList * productList = new linkedProductList();
+
+    ifstream inFile("Productos.txt");
+
+    if(!inFile.is_open()){
+        cerr << "Error al abrir el archivo" << endl;
+        return NULL;
+    }
+
+    string line;
+
+    while (getline(inFile, line)) {
+        istringstream ss(line);
+        string token;
+        vector<string> tokens;
+
+        while (getline(ss, token, '\t')){
+            tokens.push_back(token);
+
+        }
+        /*for (size_t i = 0; i < tokens.size(); i++) {
+        cout << "tokens[" << i << "] = " << tokens[i] << "\t";
+        }
+        cout << endl;*/
+
+        
+        string _productID = tokens[0];
+        int _quantity = std::stoi(tokens[1]);
+        int _fabricationTime = std::stoi(tokens[2]);
+        string _category = tokens[3];
+        string _locationInStorage = tokens[4];
+
+        Product product(_productID, _quantity, _fabricationTime, _category, _locationInStorage);
+        productList->insertFirst(product);
+
+    }
+    inFile.close();
+    return productList;
+}
+
+
 int main(int argc, char *argv[])
 {
     
 
 linkedClientList* clientList = buildClientList();
 clientList->display();
+
+linkedProductList* productList = buildProductList();
+productList->display();
+
 
 return 0;
 }

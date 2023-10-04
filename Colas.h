@@ -20,14 +20,12 @@ struct Nodo {
        Pedido * pedido;  
        Nodo* siguiente;
 
-       
        Nodo(int d) 
        {
                 dato = d; 
                 siguiente = NULL; 
        }
-
-       //TODO: CHANGE PRIORITY       
+    
        Nodo(Pedido * p) 
        {
                 dato = p->id; 
